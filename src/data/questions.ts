@@ -36,12 +36,12 @@ export const questions: Question[] = [
   },
   {
     id: 3,
-    title: '你現在的投資狀態？',
+    title: '以下哪個最符合你現在的投資狀態？',
     dimension: 'openness',
     options: [
-      { label: '還沒開始，或只有定存', value: 'low' },
-      { label: '有在投資，但偏穩', value: 'mid' },
-      { label: '喜歡嘗試新標的、追趨勢', value: 'high' },
+      { label: '我做我熟悉的投資就好', value: 'low' },
+      { label: '偶爾聽聽新東西，不一定會跟', value: 'mid' },
+      { label: '有新題材一定要研究看看', value: 'high' },
     ],
   },
 ];
