@@ -26,12 +26,12 @@ export const questions: Question[] = [
   },
   {
     id: 2,
-    title: '你最怕什麼？',
+    title: '投資時，最讓你睡不著的是哪一件事？',
     dimension: 'neuroticism',
     options: [
-      { label: '看著自己的錢變少', value: 'high' },
-      { label: '錯過該上車的機會', value: 'mid' },
-      { label: '什麼都不做，錢被通膨吃掉', value: 'low' },
+      { label: '帳面數字忽高忽低', value: 'high' },
+      { label: '看別人都在賺，只有我沒跟上', value: 'mid' },
+      { label: '錢放著沒動，被通貨膨脹慢慢吃掉', value: 'low' },
     ],
   },
   {
