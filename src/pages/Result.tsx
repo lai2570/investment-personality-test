@@ -6,17 +6,15 @@ import { relations } from '../data/relations';
 
 const base = import.meta.env.BASE_URL;
 
-const relationTypeLabel = {
+const relationTypeLabel: Record<string, string> = {
   symbiosis: '共生夥伴',
   complement: '互補夥伴',
-  mirror: '鏡像夥伴',
-} as const;
+};
 
-const relationTypeStyle = {
+const relationTypeStyle: Record<string, { bg: string; border: string; text: string; dot: string }> = {
   symbiosis: { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-700', dot: 'bg-emerald-400' },
   complement: { bg: 'bg-sky-50', border: 'border-sky-200', text: 'text-sky-700', dot: 'bg-sky-400' },
-  mirror: { bg: 'bg-violet-50', border: 'border-violet-200', text: 'text-violet-700', dot: 'bg-violet-400' },
-} as const;
+};
 
 const rarityStyle = {
   common: { bg: 'bg-gray-100', text: 'text-gray-600', label: '常見型' },
@@ -46,7 +44,7 @@ export default function Result() {
   }
 
   const portfolio = portfolios[animal.portfolio];
-  const animalRelations = relations[animalKey] || [];
+  const animalRelations = (relations[animalKey] || []).filter(r => r.type !== 'mirror');
   const rarity = rarityStyle[animal.rarity];
 
   function handleCopyLink() {
@@ -102,11 +100,11 @@ export default function Result() {
           {/* Animal image */}
           <div className="animate-scaleIn mb-4">
             <div className="relative inline-block">
-              <div className="w-52 h-52 md:w-64 md:h-64 mx-auto rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center p-4">
+              <div className="w-60 h-60 md:w-72 md:h-72 mx-auto rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center p-4">
                 <img
                   src={animal.image}
                   alt={animal.name}
-                  className="w-40 h-40 md:w-52 md:h-52 object-contain drop-shadow-2xl"
+                  className="w-48 h-48 md:w-60 md:h-60 object-contain drop-shadow-2xl"
                 />
               </div>
             </div>
@@ -160,20 +158,28 @@ export default function Result() {
         {/* Portfolio Card */}
         {portfolio && (
           <div className="animate-slideUp mb-8" style={{ animationDelay: '0.5s' }}>
-            <h2 className="text-lg font-bold text-brand-dark mb-3 flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-brand-gold/10 flex items-center justify-center text-brand-gold text-sm">$</span>
+            <h2 className="text-xl font-bold text-brand-dark mb-4 flex items-center gap-2">
+              <span className="w-7 h-7 rounded-lg bg-brand-gold/10 flex items-center justify-center text-brand-gold text-base">$</span>
               最適合你的投資組合方向
             </h2>
-            <div
-              className="relative overflow-hidden rounded-2xl p-6 bg-white shadow-sm border border-brand-gold/30"
+            <a
+              href="https://my.cmoneyfund.com.tw/account-opening"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block relative overflow-hidden rounded-2xl p-8 bg-white shadow-md border-2 border-brand-gold/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
             >
               {/* Gold accent stripe */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-gold/60 via-brand-gold to-brand-gold/60" />
+              <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-brand-gold/60 via-brand-gold to-brand-gold/60" />
 
-              <h3 className="text-xl font-bold text-brand-dark mb-1">{portfolio.name}</h3>
-              <p className="text-brand-red font-medium text-sm mb-3">{portfolio.tagline}</p>
-              <p className="text-gray-600 text-sm leading-relaxed">{portfolio.description}</p>
-            </div>
+              <h3 className="text-2xl md:text-3xl font-bold text-brand-dark mb-2">{portfolio.name}</h3>
+              <p className="text-brand-red font-semibold text-base md:text-lg mb-4">{portfolio.tagline}</p>
+              <p className="text-gray-600 text-base leading-relaxed mb-6">{portfolio.description}</p>
+
+              <div className="inline-flex items-center gap-2 bg-brand-red text-white font-semibold py-3 px-6 rounded-full group-hover:bg-brand-red-dark transition-colors text-sm">
+                立即前往口袋證券開戶
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+            </a>
           </div>
         )}
 
@@ -193,8 +199,7 @@ export default function Result() {
                 return (
                   <div
                     key={`${rel.type}-${rel.partner}`}
-                    className={`rounded-2xl p-4 ${style.bg} border ${style.border} flex items-center gap-4 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all duration-200`}
-                    onClick={() => navigate(`/result?a=${rel.partner}`)}
+                    className={`rounded-2xl p-4 ${style.bg} border ${style.border} flex items-center gap-4`}
                   >
                     <div className="w-14 h-14 rounded-xl bg-white/80 flex items-center justify-center flex-shrink-0 shadow-sm">
                       <img
@@ -213,9 +218,6 @@ export default function Result() {
                       <span className="text-sm font-bold text-brand-dark block">{partner.name}</span>
                       <p className="text-xs text-gray-500 mt-0.5">{rel.description}</p>
                     </div>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 text-gray-300">
-                      <path d="M9 18l6-6-6-6" />
-                    </svg>
                   </div>
                 );
               })}
