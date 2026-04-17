@@ -112,15 +112,17 @@ export default function Result() {
 
           {/* Name & badges */}
           <div className="animate-fadeIn" style={{ animationDelay: '0.3s' }}>
-            <div className="flex justify-center gap-2 mb-3">
-              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${rarity.bg} ${rarity.text}`}>
-                <span className="w-1.5 h-1.5 rounded-full bg-current" />
-                {rarity.label}
-              </span>
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/20 text-white backdrop-blur-sm">
-                佔比 {animal.percentage}
-              </span>
-            </div>
+            {animal.rarity !== 'common' && (
+              <div className="flex justify-center gap-2 mb-3">
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${rarity.bg} ${rarity.text}`}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                  {rarity.label}
+                </span>
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/20 text-white backdrop-blur-sm">
+                  佔比 {animal.percentage}
+                </span>
+              </div>
+            )}
 
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-1">
               你是{animal.name}
@@ -143,7 +145,6 @@ export default function Result() {
           {[
             { icon: '性格描述', content: animal.personality },
             { icon: '擅長領域', content: animal.strength },
-            { icon: '投資哲學', content: animal.philosophy },
           ].map((section, i) => (
             <div key={i} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-50">
               <div className="flex items-center gap-2 mb-3">
