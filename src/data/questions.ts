@@ -16,12 +16,12 @@ export interface Question {
 export const questions: Question[] = [
   {
     id: 1,
-    title: '這筆錢多久會用到？',
+    title: '如果你現在要買一檔基金，你願意讓它陪你走多遠？',
     dimension: 'time',
     options: [
-      { label: '一年內可能會用到', value: 'short' },
-      { label: '三到五年內', value: 'mid' },
-      { label: '五年以上都不會動', value: 'long' },
+      { label: '一年左右，我們到下個路口就好', value: 'short' },
+      { label: '三到五年，我們有一段路要走', value: 'mid' },
+      { label: '五年以上，我們爬到下一個山頭', value: 'long' },
     ],
   },
   {
