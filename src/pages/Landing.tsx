@@ -100,37 +100,38 @@ export default function Landing() {
             </div>
 
             {/* Mobile — Hero Graphic */}
-            <div className="relative flex lg:hidden items-center justify-center h-[280px] sm:h-[320px]">
+            <div className="relative flex lg:hidden items-center justify-center h-[220px] sm:h-[260px]">
               {/* Rotating rings */}
-              <div className="absolute w-52 h-52 rounded-full border border-mm-border/40" style={{ animation: 'rotateRing 60s linear infinite' }}>
+              <div className="absolute w-40 h-40 rounded-full border border-mm-border/40" style={{ animation: 'rotateRing 60s linear infinite' }}>
                 <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-mm-accent" />
               </div>
-              <div className="absolute w-40 h-40 rounded-full border border-dashed border-mm-border/25" style={{ animation: 'rotateRing 45s linear infinite reverse' }} />
+              <div className="absolute w-32 h-32 rounded-full border border-dashed border-mm-border/25" style={{ animation: 'rotateRing 45s linear infinite reverse' }} />
 
-              {/* Floating animal cards */}
+              {/* Floating animal circles */}
               {heroAnimals.map((animal, i) => {
                 const mobilePositions = [
-                  'top-0 left-2 sm:left-6',
-                  'bottom-2 left-4 sm:left-10',
-                  'top-4 right-2 sm:right-6',
+                  'top-0 left-4 sm:left-10',
+                  'bottom-0 left-8 sm:left-16',
+                  'top-2 right-4 sm:right-10',
                 ];
                 return (
                   <div
                     key={`mobile-${animal.label}`}
-                    className={`absolute ${mobilePositions[i]} ${animal.y} bg-mm-card rounded-xl p-2.5 border border-mm-border shadow-md`}
+                    className={`absolute ${mobilePositions[i]} ${animal.y}`}
                     style={{ animationDelay: animal.delay }}
                   >
-                    <img src={animal.img} alt={animal.label} className="w-10 h-10 sm:w-12 sm:h-12 object-contain mb-1" />
-                    <p className="text-[9px] sm:text-[10px] font-semibold text-mm-fg text-center">{animal.label}</p>
+                    <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-full bg-mm-card border border-mm-border shadow-md overflow-hidden flex items-center justify-center">
+                      <img src={animal.img} alt={animal.label} className="w-16 h-16 sm:w-18 sm:h-18 object-cover" />
+                    </div>
                   </div>
                 );
               })}
 
-              {/* Center gradient shape */}
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-mm-accent to-mm-accent-secondary opacity-10 rotate-12" />
+              {/* Center gradient circle */}
+              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-mm-accent to-mm-accent-secondary opacity-10" />
 
               {/* Dot grid */}
-              <div className="absolute bottom-6 right-6 grid grid-cols-3 gap-1.5">
+              <div className="absolute bottom-4 right-4 grid grid-cols-3 gap-1.5">
                 {Array.from({ length: 9 }).map((_, i) => (
                   <div key={i} className="w-1.5 h-1.5 rounded-full bg-mm-accent/15" />
                 ))}
