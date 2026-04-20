@@ -13,8 +13,8 @@
   --color-mm-card: #FFFFFF;
   --color-mm-gold: #D4A04C;
 
-  --font-sans: 'Inter', 'Noto Sans TC', system-ui, sans-serif;
-  --font-display: 'Calistoga', 'Noto Serif TC', serif;
+  --font-sans: 'Inter', 'Noto Sans TC', 'Microsoft JhengHei', system-ui, sans-serif;
+  --font-display: 'Inter', 'Noto Sans TC', 'Microsoft JhengHei', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
@@ -23,7 +23,7 @@ body {
   margin: 0;
   background-color: #FAFAFA;
   color: #1A1A1A;
-  font-family: 'Inter', 'Noto Sans TC', system-ui, sans-serif;
+  font-family: 'Inter', 'Noto Sans TC', 'Microsoft JhengHei', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;

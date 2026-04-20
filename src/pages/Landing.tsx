@@ -146,7 +146,7 @@ export default function Landing() {
               </div>
               <div className="absolute w-64 h-64 rounded-full border border-dashed border-mm-border/30" style={{ animation: 'rotateRing 45s linear infinite reverse' }} />
 
-              {/* Floating animal cards */}
+              {/* Floating animal circles */}
               {heroAnimals.map((animal, i) => {
                 const positions = [
                   'top-4 left-8',
@@ -156,17 +156,18 @@ export default function Landing() {
                 return (
                   <div
                     key={animal.label}
-                    className={`absolute ${positions[i]} ${animal.y} bg-mm-card rounded-2xl p-4 border border-mm-border shadow-lg`}
+                    className={`absolute ${positions[i]} ${animal.y}`}
                     style={{ animationDelay: animal.delay }}
                   >
-                    <img src={animal.img} alt={animal.label} className="w-16 h-16 object-contain mb-2" />
-                    <p className="text-xs font-semibold text-mm-fg text-center">{animal.label}</p>
+                    <div className="w-20 h-20 rounded-full bg-mm-card border border-mm-border shadow-lg overflow-hidden flex items-center justify-center">
+                      <img src={animal.img} alt={animal.label} className="w-20 h-20 object-cover" />
+                    </div>
                   </div>
                 );
               })}
 
-              {/* Center gradient shape */}
-              <div className="w-28 h-28 rounded-3xl bg-gradient-to-br from-mm-accent to-mm-accent-secondary opacity-10 rotate-12" />
+              {/* Center gradient circle */}
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-mm-accent to-mm-accent-secondary opacity-10" />
 
               {/* 3x3 dot grid */}
               <div className="absolute bottom-4 right-16 grid grid-cols-3 gap-2">
