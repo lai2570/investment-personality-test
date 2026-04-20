@@ -99,7 +99,45 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Right — Hero Graphic */}
+            {/* Mobile — Hero Graphic */}
+            <div className="relative flex lg:hidden items-center justify-center h-[280px] sm:h-[320px]">
+              {/* Rotating rings */}
+              <div className="absolute w-52 h-52 rounded-full border border-mm-border/40" style={{ animation: 'rotateRing 60s linear infinite' }}>
+                <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-mm-accent" />
+              </div>
+              <div className="absolute w-40 h-40 rounded-full border border-dashed border-mm-border/25" style={{ animation: 'rotateRing 45s linear infinite reverse' }} />
+
+              {/* Floating animal cards */}
+              {heroAnimals.map((animal, i) => {
+                const mobilePositions = [
+                  'top-0 left-2 sm:left-6',
+                  'bottom-2 left-4 sm:left-10',
+                  'top-4 right-2 sm:right-6',
+                ];
+                return (
+                  <div
+                    key={`mobile-${animal.label}`}
+                    className={`absolute ${mobilePositions[i]} ${animal.y} bg-mm-card rounded-xl p-2.5 border border-mm-border shadow-md`}
+                    style={{ animationDelay: animal.delay }}
+                  >
+                    <img src={animal.img} alt={animal.label} className="w-10 h-10 sm:w-12 sm:h-12 object-contain mb-1" />
+                    <p className="text-[9px] sm:text-[10px] font-semibold text-mm-fg text-center">{animal.label}</p>
+                  </div>
+                );
+              })}
+
+              {/* Center gradient shape */}
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-mm-accent to-mm-accent-secondary opacity-10 rotate-12" />
+
+              {/* Dot grid */}
+              <div className="absolute bottom-6 right-6 grid grid-cols-3 gap-1.5">
+                {Array.from({ length: 9 }).map((_, i) => (
+                  <div key={i} className="w-1.5 h-1.5 rounded-full bg-mm-accent/15" />
+                ))}
+              </div>
+            </div>
+
+            {/* Desktop — Hero Graphic */}
             <div className="relative hidden lg:flex items-center justify-center min-h-[420px]">
               {/* Rotating ring */}
               <div className="absolute w-80 h-80 rounded-full border border-mm-border/50" style={{ animation: 'rotateRing 60s linear infinite' }}>
