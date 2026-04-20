@@ -52,8 +52,8 @@ export default function Landing() {
          ════════════════════════════════════ */}
       <section className="relative pt-16 overflow-hidden">
         {/* Radial glow */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none opacity-[0.08]" style={{ background: 'radial-gradient(circle, #0052FF, transparent 70%)' }} />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full pointer-events-none opacity-[0.04]" style={{ background: 'radial-gradient(circle, #4D7CFF, transparent 70%)' }} />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none opacity-[0.08]" style={{ background: 'radial-gradient(circle, #C0392B, transparent 70%)' }} />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full pointer-events-none opacity-[0.04]" style={{ background: 'radial-gradient(circle, #E74C3C, transparent 70%)' }} />
 
         <div className="max-w-6xl mx-auto px-6 md:px-10 pt-20 md:pt-28 pb-20 md:pb-32">
           <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
@@ -145,7 +145,7 @@ export default function Landing() {
          ════════════════════════════════════ */}
       <section className="bg-mm-fg text-white dot-texture relative">
         {/* Radial glow */}
-        <div className="absolute top-0 left-0 w-[300px] h-[300px] rounded-full pointer-events-none opacity-[0.06]" style={{ background: 'radial-gradient(circle, #4D7CFF, transparent 70%)' }} />
+        <div className="absolute top-0 left-0 w-[300px] h-[300px] rounded-full pointer-events-none opacity-[0.06]" style={{ background: 'radial-gradient(circle, #E74C3C, transparent 70%)' }} />
 
         <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
           {/* Label */}
@@ -263,7 +263,7 @@ export default function Landing() {
           FINAL CTA — Inverted
          ════════════════════════════════════ */}
       <section className="bg-mm-fg text-white dot-texture relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.06]" style={{ background: 'radial-gradient(circle, #0052FF, transparent 70%)' }} />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.06]" style={{ background: 'radial-gradient(circle, #C0392B, transparent 70%)' }} />
 
         <div className="max-w-6xl mx-auto px-6 md:px-10 py-24 md:py-36 text-center relative z-10">
           <div className="animate-fadeInUp inline-flex items-center gap-3 rounded-full border border-mm-accent/40 bg-mm-accent/10 px-5 py-2 mb-8" style={{ animationDelay: '0.1s' }}>

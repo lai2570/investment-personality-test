@@ -51,84 +51,78 @@ export default function Quiz() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(180deg, #FAF6F0 0%, #F3ECE2 100%)' }}>
-      {/* ── Sticky header ── */}
-      <header className="sticky top-0 z-20 backdrop-blur-xl bg-brand-cream/80 border-b border-black/5">
-        <div className="max-w-xl mx-auto px-6 pt-4 pb-3">
-          {/* Top row */}
-          <div className="flex items-center justify-between mb-3">
-            <button
-              onClick={handleBack}
-              className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-brand-dark transition-colors cursor-pointer group"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:-translate-x-0.5">
-                <path d="M19 12H5M12 19l-7-7 7-7" />
-              </svg>
-              <span className="font-medium">{currentQ === 0 ? '回首頁' : '上一題'}</span>
-            </button>
+    <div className="min-h-screen flex flex-col bg-mm-bg">
+      {/* ── Header ── */}
+      <header className="sticky top-0 z-20 bg-mm-bg/80 backdrop-blur-xl border-b border-mm-border">
+        <div className="max-w-2xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+          <button
+            onClick={handleBack}
+            className="group flex items-center gap-2 text-sm text-mm-muted-fg hover:text-mm-fg transition-colors duration-200 cursor-pointer"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-200 group-hover:-translate-x-0.5">
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            <span className="font-medium">{currentQ === 0 ? '回首頁' : '上一題'}</span>
+          </button>
 
-            {/* Step dots */}
-            <div className="flex items-center gap-2">
-              {questions.map((_, i) => (
-                <div
-                  key={i}
-                  className={`rounded-full transition-all duration-500
-                    ${i === currentQ
-                      ? 'w-7 h-2.5 bg-brand-red'
-                      : i < currentQ
-                        ? 'w-2.5 h-2.5 bg-brand-red/40'
-                        : 'w-2.5 h-2.5 bg-gray-300'
-                    }`}
-                />
-              ))}
-            </div>
+          {/* Step indicators */}
+          <div className="flex items-center gap-2">
+            {questions.map((_, i) => (
+              <div
+                key={i}
+                className={`rounded-full transition-all duration-300
+                  ${i === currentQ
+                    ? 'w-8 h-2.5 bg-gradient-to-r from-mm-accent to-mm-accent-secondary'
+                    : i < currentQ
+                      ? 'w-2.5 h-2.5 bg-mm-accent/40'
+                      : 'w-2.5 h-2.5 bg-mm-border'
+                  }`}
+              />
+            ))}
           </div>
+        </div>
 
-          {/* Progress bar */}
-          <div className="w-full h-1 bg-black/5 rounded-full overflow-hidden">
-            <div
-              className="h-full rounded-full transition-all duration-700 ease-out"
-              style={{
-                width: `${progress}%`,
-                background: 'linear-gradient(90deg, #C0392B, #E74C3C)',
-              }}
-            />
-          </div>
+        {/* Progress bar */}
+        <div className="h-0.5 bg-mm-border">
+          <div
+            className="h-full transition-all duration-700 ease-out"
+            style={{
+              width: `${progress}%`,
+              background: 'linear-gradient(90deg, #C0392B, #E74C3C)',
+            }}
+          />
         </div>
       </header>
 
-      {/* ── Main content ── */}
-      <main className="flex-1 flex items-center justify-center px-6 py-8 md:py-12">
-        <div key={currentQ} className="animate-fadeIn max-w-xl w-full">
-
+      {/* ── Main ── */}
+      <main className="flex-1 flex items-center justify-center px-6 md:px-10 py-12 md:py-16">
+        <div key={currentQ} className="animate-fadeInUp max-w-xl w-full">
           {/* Illustration */}
           <div className="flex justify-center mb-8">
             <div className="relative">
-              <div className="absolute inset-0 rounded-full bg-brand-red/5 scale-150" />
+              <div className="absolute inset-0 rounded-full scale-[2] opacity-5" style={{ background: 'radial-gradient(circle, #C0392B, transparent 70%)' }} />
               <img
                 src={questionIllustrations[currentQ]}
                 alt=""
-                className="relative w-20 h-20 md:w-24 md:h-24 object-contain opacity-15"
+                className="relative w-20 h-20 md:w-24 md:h-24 object-contain opacity-[0.12]"
               />
             </div>
           </div>
 
-          {/* Question header */}
+          {/* Question label */}
           <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <div className="h-px w-6 bg-brand-red/30" />
-              <span className="text-brand-red font-bold text-xs tracking-[0.2em] uppercase">
+            <div className="inline-flex items-center gap-3 rounded-full border border-mm-accent/30 bg-mm-accent/5 px-4 py-1.5 mb-5">
+              <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-mm-accent">
                 Question {question.id} of {questions.length}
               </span>
-              <div className="h-px w-6 bg-brand-red/30" />
             </div>
-            <h2 className="text-2xl md:text-[2rem] font-bold text-brand-dark leading-snug tracking-tight">
+            <h2 className="font-display text-2xl md:text-[2rem] text-mm-fg leading-snug tracking-[-0.01em]">
               {question.title}
             </h2>
           </div>
 
           {/* Options */}
-          <div className="space-y-3 md:space-y-4">
+          <div className="space-y-3">
             {question.options.map((option, idx) => {
               const isSelected = answers[currentQ] === option.value;
               const letters = ['A', 'B', 'C'];
@@ -136,22 +130,22 @@ export default function Quiz() {
                 <button
                   key={option.value}
                   onClick={() => handleSelect(option.value)}
-                  className={`group w-full text-left rounded-2xl border-2 transition-all duration-300 cursor-pointer overflow-hidden
+                  className={`group w-full text-left rounded-2xl border transition-all duration-200 cursor-pointer overflow-hidden
                     ${isSelected
-                      ? 'border-brand-red bg-brand-red shadow-xl scale-[1.02]'
-                      : 'border-transparent bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:border-brand-red/20'
+                      ? 'border-mm-accent bg-gradient-to-r from-mm-accent to-mm-accent-secondary shadow-accent scale-[1.02]'
+                      : 'border-mm-border bg-mm-card hover:border-mm-accent/30 hover:shadow-lg hover:-translate-y-0.5'
                     }`}
                 >
                   <div className="flex items-center gap-4 px-5 py-4 md:px-6 md:py-5">
-                    <span className={`flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center text-sm font-bold tracking-wide transition-all duration-300
+                    <span className={`flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-200
                       ${isSelected
-                        ? 'bg-white/25 text-white'
-                        : 'bg-brand-cream text-brand-red group-hover:bg-brand-red/5'
+                        ? 'bg-white/20 text-white'
+                        : 'bg-mm-muted text-mm-accent group-hover:bg-mm-accent/5'
                       }`}>
                       {letters[idx]}
                     </span>
-                    <span className={`text-[15px] md:text-base font-medium leading-snug transition-colors
-                      ${isSelected ? 'text-white' : 'text-brand-dark'}`}>
+                    <span className={`text-[15px] md:text-base font-medium leading-snug transition-colors duration-200
+                      ${isSelected ? 'text-white' : 'text-mm-fg'}`}>
                       {option.label}
                     </span>
                   </div>
@@ -162,13 +156,9 @@ export default function Quiz() {
         </div>
       </main>
 
-      {/* ── Subtle footer ── */}
-      <footer className="py-4 text-center">
-        <img
-          src={`${base}images/pocket.png`}
-          alt="口袋基金"
-          className="h-4 mx-auto object-contain opacity-20"
-        />
+      {/* ── Footer ── */}
+      <footer className="py-5 text-center border-t border-mm-border">
+        <img src={`${base}images/pocket.png`} alt="口袋基金" className="h-4 mx-auto object-contain opacity-20" />
       </footer>
     </div>
   );

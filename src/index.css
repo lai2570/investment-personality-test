@@ -1,26 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Brand (Quiz/Result pages) ── */
-  --color-brand-red: #C0392B;
-  --color-brand-red-dark: #962D22;
-  --color-brand-red-light: #E74C3C;
-  --color-brand-cream: #FAF6F0;
-  --color-brand-cream-dark: #F0EBE3;
-  --color-brand-dark: #2B2B2B;
-  --color-brand-gold: #D4A04C;
-  --color-brand-gold-light: #F5E6CC;
-
-  /* ── Minimalist Modern Tokens ── */
+  /* ── Minimalist Modern Tokens (Red Accent) ── */
   --color-mm-bg: #FAFAFA;
-  --color-mm-fg: #0F172A;
-  --color-mm-muted: #F1F5F9;
-  --color-mm-muted-fg: #64748B;
-  --color-mm-accent: #0052FF;
-  --color-mm-accent-secondary: #4D7CFF;
+  --color-mm-fg: #1A1A1A;
+  --color-mm-muted: #F5F0EB;
+  --color-mm-muted-fg: #6B5E54;
+  --color-mm-accent: #C0392B;
+  --color-mm-accent-secondary: #E74C3C;
   --color-mm-accent-fg: #FFFFFF;
-  --color-mm-border: #E2E8F0;
+  --color-mm-border: #E8E0D8;
   --color-mm-card: #FFFFFF;
+  --color-mm-gold: #D4A04C;
 
   --font-sans: 'Inter', 'Noto Sans TC', system-ui, sans-serif;
   --font-display: 'Calistoga', Georgia, serif;
@@ -30,8 +21,8 @@
 /* ── Base ────────────────────────────── */
 body {
   margin: 0;
-  background-color: #FAF6F0;
-  color: #2B2B2B;
+  background-color: #FAFAFA;
+  color: #1A1A1A;
   font-family: 'Inter', 'Noto Sans TC', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -40,7 +31,7 @@ body {
 
 /* ── Gradient Text ───────────────────── */
 .gradient-text {
-  background: linear-gradient(135deg, #0052FF, #4D7CFF);
+  background: linear-gradient(135deg, #C0392B, #E74C3C);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -99,19 +90,19 @@ body {
 .animate-pulseDot   { animation: pulseDot 2s ease-in-out infinite; }
 
 /* ── Shadows ─────────────────────────── */
-.shadow-accent     { box-shadow: 0 4px 14px rgba(0,82,255,0.25); }
-.shadow-accent-lg  { box-shadow: 0 8px 24px rgba(0,82,255,0.35); }
+.shadow-accent     { box-shadow: 0 4px 14px rgba(192,57,43,0.2); }
+.shadow-accent-lg  { box-shadow: 0 8px 24px rgba(192,57,43,0.3); }
 
 /* ── Scrollbar ───────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #FAFAFA; }
-::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #0052FF40; }
+::-webkit-scrollbar-thumb { background: #E8E0D8; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #C0392B40; }
 
 /* ── Selection ───────────────────────── */
 ::selection {
-  background: rgba(0,82,255,0.15);
-  color: #0F172A;
+  background: rgba(192,57,43,0.15);
+  color: #1A1A1A;
 }
 
 /* ── Reduced motion ─────────────────── */
