@@ -98,11 +98,11 @@ export default function Result() {
               <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-mm-accent" />
             </div>
 
-            <div className="w-52 h-52 md:w-64 md:h-64 rounded-full bg-white/[0.06] backdrop-blur-sm flex items-center justify-center border border-white/10">
+            <div className="w-52 h-52 md:w-64 md:h-64 rounded-full bg-white/[0.06] backdrop-blur-sm flex items-center justify-center border border-white/10 overflow-hidden">
               <img
                 src={animal.image}
                 alt={animal.name}
-                className="w-40 h-40 md:w-52 md:h-52 object-contain drop-shadow-2xl"
+                className="w-52 h-52 md:w-64 md:h-64 object-cover drop-shadow-2xl"
               />
             </div>
           </div>
