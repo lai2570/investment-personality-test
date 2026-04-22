@@ -89,8 +89,8 @@ export default function Landing() {
             <div className="flex items-center gap-6 md:gap-8">
               <img src={`${base}images/pocket.png`} alt="口袋基金" className="h-6 md:h-7 object-contain" />
               <nav className="hidden md:flex items-center gap-6 text-sm text-ink-soft">
-                <a href="#about" className="link-underline">關於測驗</a>
                 <a href="#how" className="link-underline">如何進行</a>
+                <a href="#about" className="link-underline">關於測驗</a>
               </nav>
             </div>
             <button
@@ -165,8 +165,42 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ═════════ How it works ═════════ */}
+      <section id="how" className="border-y border-line section-gradient-down">
+        <div className="max-w-6xl mx-auto px-5 md:px-8 py-14 md:py-20">
+          <Reveal>
+            <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
+              如何進行
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-10">
+              三個步驟，3 分鐘完成
+            </h2>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-6 md:gap-10">
+            {[
+              { step: '1', title: '回答 3 個問題', desc: '題目涵蓋時間規劃、風險偏好、投資開放度。不需要任何金融知識，憑直覺作答即可。' },
+              { step: '2', title: '取得你的性格動物', desc: '系統依據你的答案組合，從 10 種典型投資性格中，找到最符合你的那一型。' },
+              { step: '3', title: '直接申購組合', desc: '閱讀組合說明、看推薦的基金清單，決定好就直接到口袋證券一鍵完成申購。' },
+            ].map((s, i) => (
+              <Reveal key={s.step} delay={i * 100}>
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-9 h-9 rounded-full bg-ink text-white flex items-center justify-center text-sm font-semibold">
+                    {s.step}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
+                    <p className="text-ink-soft leading-relaxed text-[15px]">{s.desc}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ═════════ About / Narrative ═════════ */}
-      <section id="about" className="border-y border-line section-gradient-down">
+      <section id="about" className="border-b border-line section-gradient-up">
         <div className="max-w-6xl mx-auto px-5 md:px-8 py-14 md:py-20">
           <Reveal className="max-w-3xl">
             <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
@@ -203,40 +237,6 @@ export default function Landing() {
               </p>
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      {/* ═════════ How it works ═════════ */}
-      <section id="how" className="border-b border-line section-gradient-up">
-        <div className="max-w-6xl mx-auto px-5 md:px-8 py-14 md:py-20">
-          <Reveal>
-            <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
-              如何進行
-            </p>
-            <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-10">
-              三個步驟，3 分鐘完成
-            </h2>
-          </Reveal>
-
-          <div className="grid md:grid-cols-3 gap-6 md:gap-10">
-            {[
-              { step: '1', title: '回答 3 個問題', desc: '題目涵蓋時間規劃、風險偏好、投資開放度。不需要任何金融知識，憑直覺作答即可。' },
-              { step: '2', title: '取得你的性格動物', desc: '系統依據你的答案組合，從 10 種典型投資性格中，找到最符合你的那一型。' },
-              { step: '3', title: '直接申購組合', desc: '閱讀組合說明、看推薦的基金清單，決定好就直接到口袋證券一鍵完成申購。' },
-            ].map((s, i) => (
-              <Reveal key={s.step} delay={i * 100}>
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-9 h-9 rounded-full bg-ink text-white flex items-center justify-center text-sm font-semibold">
-                    {s.step}
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
-                    <p className="text-ink-soft leading-relaxed text-[15px]">{s.desc}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 
