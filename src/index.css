@@ -11,12 +11,11 @@
   --color-line: #E5E5E5;
   --color-line-soft: #EFEFEF;
 
-  /* Brand accent — used sparingly */
+  /* Brand accent */
   --color-accent: #C0392B;
   --color-accent-dark: #962D22;
   --color-accent-soft: #FDF4F3;
 
-  /* Semantic */
   --color-success: #2D7A4A;
   --color-info: #2563A8;
 
@@ -32,14 +31,64 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Subtle animations only */
+/* ── Keyframes ─────────────────────── */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.animate-fadeIn { animation: fadeIn 0.4s ease-out both; }
+@keyframes fadeInOnly {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+@keyframes floatAlt {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(8px); }
+}
+@keyframes rotateRing {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.4); opacity: 0.7; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
 
-/* Kept for legacy hover simplicity */
+.animate-fadeIn    { animation: fadeIn 0.5s ease-out both; }
+.animate-fadeInOnly { animation: fadeInOnly 0.4s ease-out both; }
+.animate-float     { animation: float 5s ease-in-out infinite; }
+.animate-floatAlt  { animation: floatAlt 4.5s ease-in-out infinite; }
+.animate-pulseDot  { animation: pulseDot 2s ease-in-out infinite; }
+
+/* Gradient shimmer text (for key words) */
+.shimmer-text {
+  background: linear-gradient(90deg, #1F1F1F 0%, #C0392B 50%, #1F1F1F 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+/* Section gradient transitions */
+.section-gradient-up {
+  background: linear-gradient(180deg, #FAFAFA 0%, #FFFFFF 100%);
+}
+.section-gradient-down {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%);
+}
+.section-soft-warm {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FDF4F3 50%, #FFFFFF 100%);
+}
+
+/* Link underline on hover */
 .link-underline {
   background-image: linear-gradient(currentColor, currentColor);
   background-size: 0% 1px;
