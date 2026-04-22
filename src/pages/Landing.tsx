@@ -117,14 +117,10 @@ export default function Landing() {
               <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
                 投資性格測驗
               </p>
-              <h1 className="text-3xl md:text-5xl font-bold leading-tight tracking-tight mb-5">
+              <h1 className="text-3xl md:text-5xl font-bold leading-tight tracking-tight mb-8">
                 3 分鐘，<br className="hidden md:block" />
                 找到你的<span className="shimmer-text">第一筆投資</span>
               </h1>
-              <p className="text-base md:text-lg text-ink-soft leading-relaxed mb-8 max-w-xl">
-                不賣基金，賣「你現在該怎麼做」。回答三個問題，
-                我們幫你把答案配置好，三分鐘內完成申購。
-              </p>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
                 <button
@@ -150,17 +146,17 @@ export default function Landing() {
                   className={`absolute ${a.pos} ${a.y}`}
                   style={{ animationDelay: a.delay }}
                 >
-                  <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-paper border border-line overflow-hidden flex items-center justify-center shadow-sm">
+                  <div className="w-20 h-20 md:w-32 md:h-32 rounded-full bg-paper border border-line overflow-hidden flex items-center justify-center shadow-sm">
                     <img src={a.img} alt="" className="w-full h-full object-cover" />
                   </div>
                 </div>
               ))}
 
-              <div className="w-14 h-14 md:w-24 md:h-24 rounded-full bg-accent opacity-10" />
+              <div className="w-16 h-16 md:w-28 md:h-28 rounded-full bg-accent opacity-10" />
 
-              {/* Owl — replaces the 9-dot grid, floating bottom-right */}
+              {/* Owl — same size as other floating animals */}
               <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 animate-floatAlt" style={{ animationDelay: '1.8s' }}>
-                <div className="w-12 h-12 md:w-20 md:h-20 rounded-full bg-paper border border-line overflow-hidden flex items-center justify-center shadow-sm">
+                <div className="w-20 h-20 md:w-32 md:h-32 rounded-full bg-paper border border-line overflow-hidden flex items-center justify-center shadow-sm">
                   <img src={`${base}images/animal6.png`} alt="教授貓頭鷹" className="w-full h-full object-cover" />
                 </div>
               </div>
@@ -218,7 +214,7 @@ export default function Landing() {
               如何進行
             </p>
             <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-10">
-              三個步驟，60 秒完成
+              三個步驟，3 分鐘完成
             </h2>
           </Reveal>
 
