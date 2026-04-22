@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const base = import.meta.env.BASE_URL;
 const POCKET_URL = 'https://my.cmoneyfund.com.tw/account-opening';
 
 const animals = [
-  { img: `${base}images/animal1.png`, name: '農夫烏龜', trait: '穩健踏實，相信時間的力量', portfolio: '穩穩睡組合' },
-  { img: `${base}images/animal2.png`, name: '建築師河狸', trait: '系統規劃，抗通膨意識強', portfolio: '錢不變薄組合' },
-  { img: `${base}images/animal3.png`, name: '職人蜜蜂', trait: '務實勤勞，重視現金流', portfolio: '每月領錢組合' },
-  { img: `${base}images/animal4.png`, name: '背包客狐狸', trait: '全球視野，分散佈局', portfolio: '全球分散組合' },
-  { img: `${base}images/animal5.png`, name: '運動員海豚', trait: '目標導向，追求效率', portfolio: '設定就忘組合' },
-  { img: `${base}images/animal6.png`, name: '教授貓頭鷹', trait: '深度研究，長期持有', portfolio: '主題研究組合' },
-  { img: `${base}images/animal7.png`, name: '獵人老鷹', trait: '精準判斷，果斷進出', portfolio: '進攻型組合' },
-  { img: `${base}images/animal8.png`, name: '創業野狼', trait: '逆向思維，價值發掘', portfolio: '逆向價值組合' },
-  { img: `${base}images/animal9.png`, name: '飛行員獵豹', trait: '趨勢判斷，快速反應', portfolio: '趨勢動能組合' },
-  { img: `${base}images/animal10.png`, name: '網紅綿羊', trait: '資訊敏感，主題輪動', portfolio: '熱門主題組合' },
+  { img: `${base}images/animal1.png`, name: '農夫烏龜', trait: '穩健踏實，相信時間的力量' },
+  { img: `${base}images/animal2.png`, name: '建築師河狸', trait: '系統規劃，抗通膨意識強' },
+  { img: `${base}images/animal3.png`, name: '職人蜜蜂', trait: '務實勤勞，重視現金流' },
+  { img: `${base}images/animal4.png`, name: '背包客狐狸', trait: '全球視野，分散佈局' },
+  { img: `${base}images/animal5.png`, name: '運動員海豚', trait: '目標導向，追求效率' },
+  { img: `${base}images/animal6.png`, name: '教授貓頭鷹', trait: '深度研究，長期持有' },
+  { img: `${base}images/animal7.png`, name: '獵人老鷹', trait: '精準判斷，果斷進出' },
+  { img: `${base}images/animal8.png`, name: '創業野狼', trait: '逆向思維，價值發掘' },
+  { img: `${base}images/animal9.png`, name: '飛行員獵豹', trait: '趨勢判斷，快速反應' },
+  { img: `${base}images/animal10.png`, name: '網紅綿羊', trait: '資訊敏感，主題輪動' },
 ];
 
 const heroFloatAnimals = [
@@ -23,32 +23,40 @@ const heroFloatAnimals = [
   { img: `${base}images/animal9.png`, y: 'animate-float',    delay: '1.2s', pos: 'top-8 right-2 sm:right-6 lg:right-4' },
 ];
 
-const faqs = [
-  {
-    q: '這個測驗需要花多久時間？',
-    a: '只需 60 秒左右。測驗包含 3 個題目，每題都是簡單的選擇，不需要任何金融知識。',
-  },
-  {
-    q: '測驗結果準確嗎？',
-    a: '測驗設計結合 Big Five 人格模型中的神經質（Neuroticism）與開放性（Openness）兩個維度，搭配你對資金使用時間的規劃，從行為金融學角度提供投資風格傾向。結果僅供自我認識參考。',
-  },
-  {
-    q: '測驗結果會儲存嗎？需要註冊嗎？',
-    a: '不需要註冊，也不會儲存任何個人資料。測驗完成後可以透過網址分享給朋友，但結果本身不會保留在伺服器上。',
-  },
-  {
-    q: '完成測驗之後可以做什麼？',
-    a: '結果頁會顯示與你性格對應的投資組合方向，以及由口袋投顧研究團隊篩選的參考基金清單。你可以直接前往口袋證券開戶、申購，或把結果分享給朋友。',
-  },
-  {
-    q: '為什麼只有 3 題？',
-    a: '一般的心理測驗會有 40-50 題，但本測驗設計目的是「快速自我認識」而非臨床評估。我們保留三個最關鍵的維度：時間軸、風險焦慮程度、對新資訊的開放度，用最少的題目給你足夠有用的參考。',
-  },
-];
+// Scroll-reveal hook
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -60px 0px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  return ref;
+}
+
+// Reveal wrapper component
+function Reveal({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const ref = useScrollReveal();
+  return (
+    <div ref={ref} className={`reveal ${className}`} style={delay ? { transitionDelay: `${delay}ms` } : undefined}>
+      {children}
+    </div>
+  );
+}
 
 export default function Landing() {
   const navigate = useNavigate();
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [animalIndex, setAnimalIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -83,7 +91,6 @@ export default function Landing() {
               <nav className="hidden md:flex items-center gap-6 text-sm text-ink-soft">
                 <a href="#about" className="link-underline">關於測驗</a>
                 <a href="#how" className="link-underline">如何進行</a>
-                <a href="#faq" className="link-underline">常見問題</a>
               </nav>
             </div>
             <button
@@ -98,7 +105,6 @@ export default function Landing() {
 
       {/* ═════════ Hero ═════════ */}
       <section className="relative overflow-hidden section-soft-warm">
-        {/* Radial glows */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.06]"
           style={{ background: 'radial-gradient(circle, #C0392B, transparent 70%)' }} />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full pointer-events-none opacity-[0.04]"
@@ -131,15 +137,13 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Right — Hero Graphic (desktop + mobile both get it) */}
+            {/* Right — Hero Graphic */}
             <div className="relative flex items-center justify-center h-[260px] md:h-[380px] mt-4 md:mt-0">
-              {/* Rotating rings */}
               <div className="absolute w-48 h-48 md:w-72 md:h-72 rounded-full border border-line" style={{ animation: 'rotateRing 60s linear infinite' }}>
                 <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 md:w-3 md:h-3 rounded-full bg-accent" />
               </div>
               <div className="absolute w-36 h-36 md:w-56 md:h-56 rounded-full border border-dashed border-line" style={{ animation: 'rotateRing 45s linear infinite reverse' }} />
 
-              {/* Floating animal circles */}
               {heroFloatAnimals.map((a, i) => (
                 <div
                   key={i}
@@ -152,14 +156,13 @@ export default function Landing() {
                 </div>
               ))}
 
-              {/* Center gradient circle */}
               <div className="w-14 h-14 md:w-24 md:h-24 rounded-full bg-accent opacity-10" />
 
-              {/* Dot grid */}
-              <div className="absolute bottom-4 right-4 grid grid-cols-3 gap-1.5">
-                {Array.from({ length: 9 }).map((_, i) => (
-                  <div key={i} className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-accent/15" />
-                ))}
+              {/* Owl — replaces the 9-dot grid, floating bottom-right */}
+              <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 animate-floatAlt" style={{ animationDelay: '1.8s' }}>
+                <div className="w-12 h-12 md:w-20 md:h-20 rounded-full bg-paper border border-line overflow-hidden flex items-center justify-center shadow-sm">
+                  <img src={`${base}images/animal6.png`} alt="教授貓頭鷹" className="w-full h-full object-cover" />
+                </div>
               </div>
             </div>
           </div>
@@ -169,7 +172,7 @@ export default function Landing() {
       {/* ═════════ About / Narrative ═════════ */}
       <section id="about" className="border-y border-line section-gradient-down">
         <div className="max-w-6xl mx-auto px-5 md:px-8 py-14 md:py-20">
-          <div className="max-w-3xl">
+          <Reveal className="max-w-3xl">
             <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
               關於這個測驗
             </p>
@@ -203,35 +206,39 @@ export default function Landing() {
                 而是<strong className="text-ink">「我現在應該怎麼做」</strong>的答案。
               </p>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ═════════ How it works ═════════ */}
       <section id="how" className="border-b border-line section-gradient-up">
         <div className="max-w-6xl mx-auto px-5 md:px-8 py-14 md:py-20">
-          <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
-            如何進行
-          </p>
-          <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-10">
-            三個步驟，60 秒完成
-          </h2>
+          <Reveal>
+            <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
+              如何進行
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-10">
+              三個步驟，60 秒完成
+            </h2>
+          </Reveal>
 
           <div className="grid md:grid-cols-3 gap-6 md:gap-10">
             {[
               { step: '1', title: '回答 3 個問題', desc: '題目涵蓋時間規劃、風險偏好、投資開放度。不需要任何金融知識，憑直覺作答即可。' },
               { step: '2', title: '取得你的性格動物', desc: '系統依據你的答案組合，從 10 種典型投資性格中，找到最符合你的那一型。' },
               { step: '3', title: '直接申購組合', desc: '閱讀組合說明、看推薦的基金清單，決定好就直接到口袋證券一鍵完成申購。' },
-            ].map((s) => (
-              <div key={s.step} className="flex gap-4 animate-fadeIn" style={{ animationDelay: `${parseInt(s.step) * 0.1}s` }}>
-                <div className="flex-shrink-0 w-9 h-9 rounded-full bg-ink text-white flex items-center justify-center text-sm font-semibold">
-                  {s.step}
+            ].map((s, i) => (
+              <Reveal key={s.step} delay={i * 100}>
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-9 h-9 rounded-full bg-ink text-white flex items-center justify-center text-sm font-semibold">
+                    {s.step}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
+                    <p className="text-ink-soft leading-relaxed text-[15px]">{s.desc}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
-                  <p className="text-ink-soft leading-relaxed text-[15px]">{s.desc}</p>
-                </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -239,25 +246,24 @@ export default function Landing() {
 
       {/* ═════════ Animal Showcase — Single with Carousel ═════════ */}
       <section className="border-b border-line section-soft-warm relative overflow-hidden">
-        {/* Background accents */}
         <div className="absolute top-1/2 left-0 w-[300px] h-[300px] rounded-full pointer-events-none opacity-[0.04] -translate-y-1/2"
           style={{ background: 'radial-gradient(circle, #C0392B, transparent 70%)' }} />
 
         <div className="relative max-w-6xl mx-auto px-5 md:px-8 py-14 md:py-20">
-          <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
-            10 種投資性格動物
-          </p>
-          <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-3">
-            你會是哪一種？
-          </h2>
-          <p className="text-ink-soft text-base mb-10 max-w-2xl">
-            每一種動物代表一種典型的投資風格傾向。測驗完成後，你會收到專屬於你的那一型。
-          </p>
+          <Reveal>
+            <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
+              10 種投資性格動物
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-3">
+              你會是哪一種？
+            </h2>
+            <p className="text-ink-soft text-base mb-10 max-w-2xl">
+              每一種動物代表一種典型的投資風格傾向。測驗完成後，你會收到專屬於你的那一型。
+            </p>
+          </Reveal>
 
-          {/* Carousel */}
-          <div className="max-w-xl mx-auto">
+          <Reveal className="max-w-xl mx-auto" delay={100}>
             <div className="relative">
-              {/* Animal card with fade transition */}
               <div
                 className={`text-center transition-opacity duration-200 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
               >
@@ -271,11 +277,9 @@ export default function Landing() {
                   </div>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold mb-2">{currentAnimal.name}</h3>
-                <p className="text-ink-soft text-base mb-2">{currentAnimal.trait}</p>
-                <p className="text-sm text-accent font-medium">對應 {currentAnimal.portfolio}</p>
+                <p className="text-ink-soft text-base">{currentAnimal.trait}</p>
               </div>
 
-              {/* Navigation arrows */}
               <button
                 onClick={() => goToAnimal(animalIndex - 1)}
                 className="absolute left-0 top-1/2 -translate-y-1/2 md:-translate-x-4 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-paper border border-line hover:border-ink hover:bg-ink hover:text-white transition-all cursor-pointer"
@@ -292,7 +296,6 @@ export default function Landing() {
               </button>
             </div>
 
-            {/* Dots */}
             <div className="flex justify-center gap-2 mt-8">
               {animals.map((_, i) => (
                 <button
@@ -311,68 +314,28 @@ export default function Landing() {
             <p className="text-center text-xs text-ink-mute mt-5">
               {animalIndex + 1} / {animals.length}
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ═════════ FAQ ═════════ */}
-      <section id="faq" className="border-b border-line section-gradient-down">
-        <div className="max-w-3xl mx-auto px-5 md:px-8 py-14 md:py-20">
-          <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
-            常見問題
-          </p>
-          <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-10">
-            你可能想知道的
-          </h2>
-
-          <div className="divide-y divide-line border-t border-line">
-            {faqs.map((faq, i) => {
-              const isOpen = openFaq === i;
-              return (
-                <div key={i}>
-                  <button
-                    onClick={() => setOpenFaq(isOpen ? null : i)}
-                    className="w-full py-5 flex items-start justify-between gap-4 text-left hover:text-accent transition-colors cursor-pointer"
-                  >
-                    <span className="font-semibold text-ink text-base md:text-lg flex-1">
-                      {faq.q}
-                    </span>
-                    <svg
-                      width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                      className={`flex-shrink-0 mt-1 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-                    >
-                      <polyline points="6 9 12 15 18 9"/>
-                    </svg>
-                  </button>
-                  {isOpen && (
-                    <div className="pb-5 pr-8 text-ink-soft leading-relaxed text-[15px] animate-fadeInOnly">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ═════════ Bottom CTA ═════════ */}
-      <section className="border-b border-line section-soft-warm">
+      <section className="border-b border-line section-gradient-down">
         <div className="max-w-3xl mx-auto px-5 md:px-8 py-14 md:py-20 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-4">
-            準備好認識自己的投資性格了嗎？
-          </h2>
-          <p className="text-ink-soft text-base mb-8 max-w-lg mx-auto">
-            回答三個問題，我們幫你把答案配置好。
-          </p>
-          <button
-            onClick={() => navigate('/quiz')}
-            className="inline-flex items-center justify-center gap-2 bg-accent text-white font-semibold text-base h-12 px-10 hover:bg-accent-dark transition-all cursor-pointer hover:-translate-y-0.5"
-          >
-            開始測驗
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
+          <Reveal>
+            <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-4">
+              準備好認識自己的投資性格了嗎？
+            </h2>
+            <p className="text-ink-soft text-base mb-8 max-w-lg mx-auto">
+              回答三個問題，我們幫你把答案配置好。
+            </p>
+            <button
+              onClick={() => navigate('/quiz')}
+              className="inline-flex items-center justify-center gap-2 bg-accent text-white font-semibold text-base h-12 px-10 hover:bg-accent-dark transition-all cursor-pointer hover:-translate-y-0.5"
+            >
+              開始測驗
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </Reveal>
         </div>
       </section>
 
@@ -391,7 +354,6 @@ export default function Landing() {
               <ul className="space-y-2 text-xs">
                 <li><a href={POCKET_URL} target="_blank" rel="noopener noreferrer" className="link-underline">關於測驗</a></li>
                 <li><a href={POCKET_URL} target="_blank" rel="noopener noreferrer" className="link-underline">如何進行</a></li>
-                <li><a href={POCKET_URL} target="_blank" rel="noopener noreferrer" className="link-underline">常見問題</a></li>
               </ul>
             </div>
             <div>
