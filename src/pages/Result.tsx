@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { animals, type AnimalKey } from '../data/animals';
 import { portfolios } from '../data/portfolios';
 import { relations } from '../data/relations';
+import { fundsByPortfolio } from '../data/funds';
 
 const base = import.meta.env.BASE_URL;
 
@@ -37,6 +38,7 @@ export default function Result() {
   }
 
   const portfolio = portfolios[animal.portfolio];
+  const recommendedFunds = fundsByPortfolio[animal.portfolio] || [];
   const animalRelations = (relations[animalKey] || []).filter(r => r.type !== 'mirror');
   const rarityLabel = rarityText[animal.rarity];
   const isRare = animal.rarity !== 'common';
@@ -156,6 +158,45 @@ export default function Result() {
             </a>
             <p className="text-xs text-ink-mute mt-4">
               本內容僅供參考，不構成投資建議。投資有風險，申購前請詳閱公開說明書。
+            </p>
+          </div>
+        </section>
+      )}
+
+      {/* ── Recommended Funds ── */}
+      {recommendedFunds.length > 0 && (
+        <section className="border-b border-line">
+          <div className="max-w-3xl mx-auto px-5 md:px-8 py-12 md:py-16">
+            <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
+              參考基金
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 leading-tight">
+              {recommendedFunds.length} 檔符合你風格的基金
+            </h2>
+            <p className="text-ink-soft text-sm md:text-base mb-8">
+              以下基金由口袋基金研究團隊從市場篩選，皆與你的投資性格方向吻合。實際申購前，請詳閱公開說明書並評估自身狀況。
+            </p>
+
+            <div className="divide-y divide-line border-t border-b border-line">
+              {recommendedFunds.map((fund) => (
+                <div key={fund.code} className="py-5 md:py-6">
+                  <div className="flex items-start justify-between gap-4 mb-2">
+                    <h3 className="text-base md:text-lg font-semibold text-ink leading-snug">
+                      {fund.name}
+                    </h3>
+                    <span className="flex-shrink-0 text-xs text-ink-mute font-mono mt-1">
+                      {fund.code}
+                    </span>
+                  </div>
+                  <p className="text-sm text-ink-soft leading-relaxed">
+                    {fund.suggest}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-xs text-ink-mute mt-6">
+              本清單僅供參考，不構成投資建議。基金價格可能因市場因素波動，投資人應自行判斷並承擔投資風險。
             </p>
           </div>
         </section>
