@@ -6,20 +6,15 @@ import { relations } from '../data/relations';
 
 const base = import.meta.env.BASE_URL;
 
-const relationTypeLabel: Record<string, string> = {
+const relationLabel: Record<string, string> = {
   symbiosis: '共生夥伴',
   complement: '互補夥伴',
 };
 
-const relationTypeStyle: Record<string, { bg: string; border: string; text: string; badge: string }> = {
-  symbiosis: { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-700', badge: 'bg-emerald-100 text-emerald-700' },
-  complement: { bg: 'bg-sky-50', border: 'border-sky-200', text: 'text-sky-700', badge: 'bg-sky-100 text-sky-700' },
-};
-
-const rarityConfig = {
-  common: { label: '', gradient: '' },
-  rare: { label: '稀有型', gradient: 'from-mm-gold to-yellow-500' },
-  superrare: { label: '超稀有型', gradient: 'from-mm-accent to-mm-accent-secondary' },
+const rarityText = {
+  common: '',
+  rare: '稀有型',
+  superrare: '超稀有型',
 } as const;
 
 export default function Result() {
@@ -32,10 +27,10 @@ export default function Result() {
 
   if (!animal) {
     return (
-      <div className="min-h-screen bg-mm-bg flex items-center justify-center">
+      <div className="min-h-screen bg-paper flex items-center justify-center">
         <div className="text-center">
-          <p className="text-mm-muted-fg mb-4">找不到這個結果</p>
-          <button onClick={() => navigate('/')} className="text-mm-accent font-medium hover:underline cursor-pointer">重新測驗</button>
+          <p className="text-ink-soft mb-4">找不到這個結果</p>
+          <button onClick={() => navigate('/')} className="text-accent font-medium hover:underline cursor-pointer">重新測驗</button>
         </div>
       </div>
     );
@@ -43,7 +38,7 @@ export default function Result() {
 
   const portfolio = portfolios[animal.portfolio];
   const animalRelations = (relations[animalKey] || []).filter(r => r.type !== 'mirror');
-  const rarity = rarityConfig[animal.rarity];
+  const rarityLabel = rarityText[animal.rarity];
   const isRare = animal.rarity !== 'common';
 
   function handleCopyLink() {
@@ -58,210 +53,196 @@ export default function Result() {
   }
 
   return (
-    <div className="min-h-screen bg-mm-bg text-mm-fg">
-      {/* ── Toast ── */}
+    <div className="min-h-screen bg-paper text-ink">
       {toastVisible && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-fadeIn">
-          <div className="bg-mm-fg text-white px-6 py-3 rounded-xl shadow-2xl text-sm font-medium flex items-center gap-2">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-fadeIn">
+          <div className="bg-ink text-white px-5 py-2.5 text-sm font-medium flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
             已複製連結
           </div>
         </div>
       )}
 
-      {/* ══════════════════════════════════
-           HERO — Inverted
-         ══════════════════════════════════ */}
-      <section className="relative overflow-hidden bg-mm-fg text-white dot-texture">
-        {/* Radial glows */}
-        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.08]" style={{ background: 'radial-gradient(circle, #E74C3C, transparent 70%)' }} />
-        <div className="absolute bottom-0 -left-20 w-[300px] h-[300px] rounded-full pointer-events-none opacity-[0.05]" style={{ background: 'radial-gradient(circle, #C0392B, transparent 70%)' }} />
-
-        {/* Header */}
-        <header className="relative z-10 max-w-2xl mx-auto px-6 md:px-10 pt-6 flex items-center justify-between">
+      {/* ── Header ── */}
+      <header className="border-b border-line">
+        <div className="max-w-3xl mx-auto px-5 md:px-8 h-14 md:h-16 flex items-center justify-between">
           <button
             onClick={() => navigate('/')}
-            className="group flex items-center gap-1.5 text-white/50 hover:text-white text-sm transition-colors duration-200 cursor-pointer"
+            className="text-sm text-ink-mute hover:text-ink transition-colors cursor-pointer flex items-center gap-1.5"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-200 group-hover:-translate-x-0.5"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-            首頁
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+            返回首頁
           </button>
-          <img src={`${base}images/pocket.png`} alt="口袋基金" className="h-5 object-contain brightness-0 invert opacity-40" />
-        </header>
+          <img src={`${base}images/pocket.png`} alt="口袋基金" className="h-6 object-contain" />
+        </div>
+      </header>
 
-        {/* Animal showcase */}
-        <div className="relative z-10 max-w-2xl mx-auto px-6 md:px-10 pt-12 pb-20 md:pb-24 text-center">
-          {/* Avatar */}
-          <div className="animate-scaleIn relative inline-block mb-6">
-            {/* Rotating ring */}
-            <div className="absolute inset-[-16px] rounded-full border border-white/10" style={{ animation: 'rotateRing 60s linear infinite' }}>
-              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-mm-accent" />
+      {/* ── Hero / Profile ── */}
+      <section className="border-b border-line bg-paper-off">
+        <div className="max-w-3xl mx-auto px-5 md:px-8 py-12 md:py-16">
+          <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
+            你的投資性格
+          </p>
+
+          <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8">
+            {/* Animal image */}
+            <div className="flex-shrink-0">
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-paper border border-line overflow-hidden flex items-center justify-center">
+                <img
+                  src={animal.image}
+                  alt={animal.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </div>
 
-            <div className="w-52 h-52 md:w-64 md:h-64 rounded-full bg-white/[0.06] backdrop-blur-sm flex items-center justify-center border border-white/10 overflow-hidden">
-              <img
-                src={animal.image}
-                alt={animal.name}
-                className="w-52 h-52 md:w-64 md:h-64 object-cover drop-shadow-2xl"
-              />
+            {/* Info */}
+            <div className="flex-1">
+              <h1 className="text-3xl md:text-4xl font-bold mb-3 leading-tight">
+                {animal.name}
+              </h1>
+              {isRare && (
+                <div className="flex items-center gap-3 text-sm mb-4">
+                  <span className="text-accent font-semibold">{rarityLabel}</span>
+                  <span className="text-ink-mute">・</span>
+                  <span className="text-ink-mute">佔比 {animal.percentage}</span>
+                </div>
+              )}
+              <p className="text-ink-soft leading-relaxed text-[15px] md:text-base">
+                {animal.personality}
+              </p>
             </div>
-          </div>
-
-          {/* Badges */}
-          {isRare && (
-            <div className="animate-fadeIn flex justify-center gap-2 mb-4" style={{ animationDelay: '0.3s' }}>
-              <span className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-bold text-white bg-gradient-to-r ${rarity.gradient} shadow-md`}>
-                {rarity.label}
-              </span>
-              <span className="inline-flex items-center px-3 py-1.5 rounded-full text-[11px] font-medium bg-white/10 text-white/80 backdrop-blur-sm">
-                佔比 {animal.percentage}
-              </span>
-            </div>
-          )}
-
-          {/* Name */}
-          <div className="animate-fadeIn" style={{ animationDelay: '0.4s' }}>
-            <div className="inline-flex items-center gap-3 rounded-full border border-mm-accent/40 bg-mm-accent/10 px-4 py-1.5 mb-4">
-              <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-mm-accent">Your Result</span>
-            </div>
-            <h1 className="font-display text-4xl md:text-5xl text-white tracking-[-0.02em] leading-tight">
-              你是{animal.name}
-            </h1>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════
-           CONTENT
-         ══════════════════════════════════ */}
-      <div className="max-w-2xl mx-auto px-6 md:px-10 py-12 md:py-16">
-        {/* ── Personality ── */}
-        <div className="animate-slideUp mb-12" style={{ animationDelay: '0.2s' }}>
-          <div className="inline-flex items-center gap-3 rounded-full border border-mm-accent/30 bg-mm-accent/5 px-4 py-1.5 mb-6">
-            <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-mm-accent">Personality</span>
-          </div>
-
-          <div className="space-y-4">
-            {[
-              { title: '性格描述', content: animal.personality },
-              { title: '擅長領域', content: animal.strength },
-            ].map((section, i) => (
-              <div
-                key={i}
-                className="bg-mm-card border border-mm-border rounded-2xl p-6 md:p-8 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
-              >
-                <h3 className="text-sm font-bold text-mm-accent tracking-wide mb-3 uppercase">{section.title}</h3>
-                <p className="text-mm-muted-fg leading-[1.8] text-[15px]">{section.content}</p>
-              </div>
-            ))}
-          </div>
+      {/* ── Strength ── */}
+      <section className="border-b border-line">
+        <div className="max-w-3xl mx-auto px-5 md:px-8 py-10 md:py-14">
+          <h2 className="text-xs md:text-sm font-semibold tracking-wider uppercase text-ink-mute mb-3">
+            擅長領域
+          </h2>
+          <p className="text-lg md:text-xl leading-relaxed text-ink">
+            {animal.strength}
+          </p>
         </div>
+      </section>
 
-        {/* ── Portfolio CTA ── */}
-        {portfolio && (
-          <div className="animate-slideUp mb-12" style={{ animationDelay: '0.4s' }}>
-            <div className="inline-flex items-center gap-3 rounded-full border border-mm-gold/30 bg-mm-gold/5 px-4 py-1.5 mb-6">
-              <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-mm-gold">Portfolio</span>
-            </div>
+      {/* ── Portfolio ── */}
+      {portfolio && (
+        <section className="border-b border-line bg-paper-off">
+          <div className="max-w-3xl mx-auto px-5 md:px-8 py-12 md:py-16">
+            <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
+              適合你的投資組合方向
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 leading-tight">
+              {portfolio.name}
+            </h2>
+            <p className="text-ink-soft font-medium text-base md:text-lg mb-4">
+              {portfolio.tagline}
+            </p>
+            <p className="text-ink-soft leading-relaxed text-[15px] md:text-base mb-8">
+              {portfolio.description}
+            </p>
 
-            {/* Gradient border card */}
-            <div className="rounded-2xl bg-gradient-to-br from-mm-accent via-mm-accent-secondary to-mm-accent p-[2px]">
-              <a
-                href="https://my.cmoneyfund.com.tw/account-opening"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block rounded-[calc(1rem-2px)] bg-mm-card p-7 md:p-8 hover:shadow-xl transition-all duration-300"
-              >
-                <h3 className="font-display text-2xl md:text-3xl text-mm-fg mb-2 tracking-[-0.01em]">{portfolio.name}</h3>
-                <p className="text-mm-accent font-semibold text-base md:text-lg mb-4">{portfolio.tagline}</p>
-                <p className="text-mm-muted-fg text-[15px] leading-relaxed mb-8">{portfolio.description}</p>
-
-                <div className="inline-flex items-center gap-2.5 bg-gradient-to-r from-mm-accent to-mm-accent-secondary text-white font-semibold py-3.5 px-7 rounded-xl shadow-accent group-hover:shadow-accent-lg group-hover:-translate-y-0.5 transition-all duration-200 text-sm">
-                  立即前往口袋證券開戶
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-200 group-hover:translate-x-1"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </div>
-              </a>
-            </div>
+            <a
+              href="https://my.cmoneyfund.com.tw/account-opening"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-accent text-white font-semibold text-base h-12 px-7 hover:bg-accent-dark transition-colors"
+            >
+              前往口袋證券開戶
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <p className="text-xs text-ink-mute mt-4">
+              本內容僅供參考，不構成投資建議。投資有風險，申購前請詳閱公開說明書。
+            </p>
           </div>
-        )}
+        </section>
+      )}
 
-        {/* ── Relations ── */}
-        {animalRelations.length > 0 && (
-          <div className="animate-slideUp mb-12" style={{ animationDelay: '0.6s' }}>
-            <div className="inline-flex items-center gap-3 rounded-full border border-mm-accent/30 bg-mm-accent/5 px-4 py-1.5 mb-6">
-              <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-mm-accent">Partners</span>
-            </div>
+      {/* ── Partners ── */}
+      {animalRelations.length > 0 && (
+        <section className="border-b border-line">
+          <div className="max-w-3xl mx-auto px-5 md:px-8 py-12 md:py-16">
+            <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
+              你的投資夥伴
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 leading-tight">
+              與這些動物最合得來
+            </h2>
+            <p className="text-ink-soft text-sm md:text-base mb-8">
+              不同性格的動物有不同的互動方式，了解夥伴關係可以幫助你在團隊投資中找到更合適的搭配。
+            </p>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {animalRelations.map((rel) => {
                 const partner = animals[rel.partner];
-                const style = relationTypeStyle[rel.type];
                 return (
                   <div
                     key={`${rel.type}-${rel.partner}`}
-                    className={`rounded-2xl p-5 md:p-6 ${style.bg} border ${style.border} flex items-center gap-4`}
+                    className="border border-line p-5 md:p-6 flex items-start gap-4"
                   >
-                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white flex items-center justify-center flex-shrink-0 shadow-sm">
-                      <img src={partner.image} alt={partner.name} className="w-10 h-10 md:w-12 md:h-12 object-contain" />
+                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-paper-gray overflow-hidden flex items-center justify-center flex-shrink-0">
+                      <img src={partner.image} alt={partner.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${style.badge} mb-1 tracking-wide uppercase`}>
-                        {relationTypeLabel[rel.type]}
-                      </span>
-                      <span className="text-sm md:text-base font-semibold text-mm-fg block">{partner.name}</span>
-                      <p className="text-xs text-mm-muted-fg mt-0.5 leading-relaxed">{rel.description}</p>
+                      <p className="text-xs text-accent font-semibold tracking-wider uppercase mb-1">
+                        {relationLabel[rel.type]}
+                      </p>
+                      <h3 className="text-base md:text-lg font-semibold mb-1">
+                        {partner.name}
+                      </h3>
+                      <p className="text-sm text-ink-soft leading-relaxed">
+                        {rel.description}
+                      </p>
                     </div>
                   </div>
                 );
               })}
             </div>
           </div>
-        )}
+        </section>
+      )}
 
-        {/* ── Share ── */}
-        <div className="animate-slideUp mb-12" style={{ animationDelay: '0.8s' }}>
-          <div className="inline-flex items-center gap-3 rounded-full border border-mm-border bg-mm-muted px-4 py-1.5 mb-6">
-            <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-mm-muted-fg">Share</span>
+      {/* ── Share & Retake ── */}
+      <section className="border-b border-line bg-paper-off">
+        <div className="max-w-3xl mx-auto px-5 md:px-8 py-10 md:py-14">
+          <div className="grid md:grid-cols-2 gap-4 mb-6">
+            <button
+              onClick={handleCopyLink}
+              className="flex items-center justify-center gap-2 border border-line bg-paper text-ink font-medium py-3 px-5 hover:border-ink transition-colors cursor-pointer text-sm"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              複製連結分享
+            </button>
+            <button
+              onClick={handleShareLine}
+              className="flex items-center justify-center gap-2 bg-[#06C755] text-white font-medium py-3 px-5 hover:brightness-95 transition-all cursor-pointer text-sm"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.349 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+              分享到 Line
+            </button>
           </div>
 
-          <div className="bg-mm-card border border-mm-border rounded-2xl p-6 md:p-8">
-            <p className="text-sm text-mm-muted-fg mb-5 text-center font-medium">邀請朋友一起來測測看吧！</p>
-            <div className="flex gap-3">
-              <button
-                onClick={handleCopyLink}
-                className="flex-1 flex items-center justify-center gap-2 bg-mm-muted border border-mm-border text-mm-fg font-semibold py-3.5 px-4 rounded-xl hover:border-mm-accent/30 hover:shadow-md transition-all duration-200 cursor-pointer text-sm"
-              >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                複製連結
-              </button>
-              <button
-                onClick={handleShareLine}
-                className="flex-1 flex items-center justify-center gap-2 bg-[#06C755] text-white font-semibold py-3.5 px-4 rounded-xl hover:brightness-110 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer text-sm"
-              >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.349 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-                分享到 Line
-              </button>
-            </div>
+          <div className="text-center">
+            <button
+              onClick={() => navigate('/quiz')}
+              className="text-sm text-ink-soft hover:text-accent transition-colors cursor-pointer inline-flex items-center gap-1.5 link-underline"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+              重新測驗
+            </button>
           </div>
         </div>
+      </section>
 
-        {/* ── Retake ── */}
-        <div className="text-center mb-12 animate-slideUp" style={{ animationDelay: '0.9s' }}>
-          <button
-            onClick={() => navigate('/quiz')}
-            className="group inline-flex items-center gap-2 bg-gradient-to-r from-mm-accent to-mm-accent-secondary text-white font-semibold py-3.5 px-10 rounded-xl shadow-accent hover:shadow-accent-lg hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 cursor-pointer"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-            重新測驗
-          </button>
+      {/* ── Footer ── */}
+      <footer className="border-t border-line">
+        <div className="max-w-3xl mx-auto px-5 md:px-8 py-6 text-center text-xs text-ink-mute">
+          <p>&copy; 2026 口袋基金 Pocket Fund</p>
         </div>
-
-        {/* ── Footer ── */}
-        <footer className="text-center pb-10 pt-6 border-t border-mm-border">
-          <img src={`${base}images/pocket.png`} alt="口袋基金" className="h-5 mx-auto object-contain opacity-30" />
-          <p className="text-[10px] text-mm-muted-fg/50 mt-2">&copy; 2024 Pocket Fund</p>
-        </footer>
-      </div>
+      </footer>
     </div>
   );
 }
