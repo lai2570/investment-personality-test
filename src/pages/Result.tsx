@@ -189,7 +189,7 @@ export default function Result() {
             </div>
 
             <p className="text-xs text-ink-mute mt-6">
-              本清單僅供參考，不構成投資建議。基金價格可能因市場因素波動，投資人應自行判斷並承擔投資風險。
+              基金價格可能因市場因素波動，投資人應自行判斷並承擔投資風險。
             </p>
           </div>
         </section>
