@@ -128,12 +128,6 @@ export default function Quiz() {
         </div>
       </main>
 
-      {/* ── Footer ── */}
-      <footer className="border-t border-line">
-        <div className="max-w-3xl mx-auto px-5 md:px-8 py-4 text-xs text-ink-mute text-center">
-          本測驗結果僅供參考，不構成投資建議。
-        </div>
-      </footer>
     </div>
   );
 }

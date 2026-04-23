@@ -2,15 +2,9 @@ import { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { animals, type AnimalKey } from '../data/animals';
 import { portfolios } from '../data/portfolios';
-import { relations } from '../data/relations';
 import { fundsByPortfolio } from '../data/funds';
 
 const base = import.meta.env.BASE_URL;
-
-const relationLabel: Record<string, string> = {
-  symbiosis: '共生夥伴',
-  complement: '互補夥伴',
-};
 
 const rarityText = {
   common: '',
@@ -39,7 +33,6 @@ export default function Result() {
 
   const portfolio = portfolios[animal.portfolio];
   const recommendedFunds = fundsByPortfolio[animal.portfolio] || [];
-  const animalRelations = (relations[animalKey] || []).filter(r => r.type !== 'mirror');
   const rarityLabel = rarityText[animal.rarity];
   const isRare = animal.rarity !== 'common';
 
@@ -198,50 +191,6 @@ export default function Result() {
             <p className="text-xs text-ink-mute mt-6">
               本清單僅供參考，不構成投資建議。基金價格可能因市場因素波動，投資人應自行判斷並承擔投資風險。
             </p>
-          </div>
-        </section>
-      )}
-
-      {/* ── Partners ── */}
-      {animalRelations.length > 0 && (
-        <section className="border-b border-line">
-          <div className="max-w-3xl mx-auto px-5 md:px-8 py-12 md:py-16">
-            <p className="text-accent text-xs md:text-sm font-semibold tracking-wider uppercase mb-4">
-              你的投資夥伴
-            </p>
-            <h2 className="text-2xl md:text-3xl font-bold mb-3 leading-tight">
-              與這些動物最合得來
-            </h2>
-            <p className="text-ink-soft text-sm md:text-base mb-8">
-              不同性格的動物有不同的互動方式，了解夥伴關係可以幫助你在團隊投資中找到更合適的搭配。
-            </p>
-
-            <div className="space-y-4">
-              {animalRelations.map((rel) => {
-                const partner = animals[rel.partner];
-                return (
-                  <div
-                    key={`${rel.type}-${rel.partner}`}
-                    className="border border-line p-5 md:p-6 flex items-start gap-4"
-                  >
-                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-paper-gray overflow-hidden flex items-center justify-center flex-shrink-0">
-                      <img src={partner.image} alt={partner.name} className="w-full h-full object-cover" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs text-accent font-semibold tracking-wider uppercase mb-1">
-                        {relationLabel[rel.type]}
-                      </p>
-                      <h3 className="text-base md:text-lg font-semibold mb-1">
-                        {partner.name}
-                      </h3>
-                      <p className="text-sm text-ink-soft leading-relaxed">
-                        {rel.description}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
           </div>
         </section>
       )}
